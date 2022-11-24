@@ -1,0 +1,105 @@
+<!doctype html>
+<head>
+<title>Student Attendance Page</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='edits.css') }}">
+<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+<style>
+footer{
+  text-align:center;
+  padding:3px;
+  color: black;
+  }
+  body , h1{
+    background-color: skyblue;
+    text-align: center;
+    margin-left: 20px;
+  }
+	   .row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+* {
+  box-sizing: border-box;
+}
+.column {
+  float: left;
+  width: 25%;
+  padding: 8px;
+  height: 60px; /* Should be removed. Only for demonstration */
+}
+@media screen and (max-width: 1000px) {
+  .column {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+  <h1><a style="text_align:center" href = "{{ url_for('home') }}"> Student Management System</h1>
+<nav>
+  <ul>
+    <li class="dropdown">
+    <a onclick="window.location='/home' " class="dropbtn">Home</a>
+  </li>
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">Student Details</a>
+    <div class="dropdown-content">
+      <a href="/StudentMyDetails">Get My Details</a>
+    </div>
+  </li>
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">Student Attendance</a>
+    <div class="dropdown-content">
+      <a href="/StudentMyAttendance">Get My Attendance</a>
+    </div>
+  </li>
+  <li class="dropdown last">
+    <a onclick="window.location='/logout' " class="dropbtn"> Logout </a>
+  </li>
+</ul>
+</nav><br><br>
+{%- for category, message in get_flashed_messages(with_categories = true) %}
+         <div class = "alert alert-danger">
+            {{ message }}
+         </div>
+{%- endfor %}<br>
+<br><br>
+<table style="border:1px solid black;margin-left:auto;margin-right:auto;" class="pure-table">
+    <thead>
+            <tr>
+               <th>Month</th>
+               <th>August</th>
+               <th>September</th>
+               <th>October</th>
+			   <th>November</th>
+               <th>December</th>
+               <th>January</th>
+			   <th>February</th>
+               <th>March</th>
+               <th>April</th>
+            </tr>
+         </thead>
+
+         <tbody style="text-align:center">
+            {% if data  %}
+               <tr class="pure-table-odd">
+                  <td>Values</td>
+				  <td>{{ data[0][1] }}</td>
+                  <td>{{ data[0][2] }}</td>
+                  <td>{{ data[0][3] }}</td>
+                  <td>{{ data[0][4] }}</td>
+				  <td>{{ data[0][5] }}</td>
+                  <td>{{ data[0][6] }}</td>
+                  <td>{{ data[0][7] }}</td>
+                  <td>{{ data[0][8] }}</td>
+				  <td>{{ data[0][9] }}</td>
+               </tr>
+            {% endif %}
+
+      </tbody>
+	  <br>
+	  <br>
+      </table>
+</body>

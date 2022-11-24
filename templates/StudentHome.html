@@ -1,0 +1,65 @@
+<!doctype html>
+<head>
+<title>Student Home Page</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='edits.css') }}">
+<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+<style>
+footer{
+  text-align:center;
+  padding:3px;
+  color: black;
+  }
+  body , h1{
+    background-color: skyblue;
+    text-align: center;
+    margin-left: 20px;
+  }
+  table,th,tr,td{
+      padding: 5px;
+      }
+  table{
+      border-spacing: 15px;
+       }
+</style>
+</head>
+<body>
+  <h1><a style="text_align:center" href = "{{ url_for('home') }}"> Student Management System</h1>
+<nav>
+  <ul>
+    <li class="dropdown">
+    <a onclick="window.location='/home' " class="dropbtn">Home</a>
+  </li>
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">Student Details</a>
+    <div class="dropdown-content">
+      <a href="/StudentMyDetails">Get My Details</a>
+    </div>
+  </li>
+  <li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">Student Attendance</a>
+    <div class="dropdown-content">
+      <a href="/StudentMyAttendance">Get My Attendance</a>
+    </div>
+  </li>
+  <li class="dropdown last">
+    <a onclick="window.location='/logout' " class="dropbtn"> Logout </a>
+  </li>
+    <li class="dropdown last">
+    <a onclick="window.location='/ChangePwd' " class="dropbtn"> Change Password </a>
+  </li>
+</ul>
+</nav><br><br>
+{%- for category, message in get_flashed_messages(with_categories = true) %}
+         <div class = "alert alert-danger">
+            {{ message }}
+         </div>
+{%- endfor %}<br>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
+<h2> Hello {% if fullnames %} {{ fullnames }} {% endif %}, Welcome to the Student Home Page <br><br> Go through the Navigation Bar for different Requirements</h2>
+<br><br>
+<br><br>
+<BR><br>
+</body>

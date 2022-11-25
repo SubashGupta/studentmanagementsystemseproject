@@ -383,7 +383,7 @@ def logout():
     session.pop('admissionNumber',None)
     session.pop('studentAdmissionNo',None)
     flash("logout was initiated successfully",'error')   #flashing an error message
-    return redirect(url_for("initial"))
+    return redirect(url_for("initial")) #comment
 
 if __name__ == '__main__':
     with app.app_context():

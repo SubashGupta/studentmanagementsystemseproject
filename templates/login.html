@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <head>
 <title>Student Management System</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='edits.css') }}">
 <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
 <style>
-body , h1{
-  background-color: skyblue;
+body{
+  background-repeat:no-repeat;
+  background-attached:fixed;
+  background-size:cover;
+  background-image: url('{{url_for('static',filename='img/img.jpg')}}');
+  text-align: center;
+  margin-left: 20px;
+}
+h1{
   text-align: center;
   margin-left: 20px;
 }
 table,th,tr,td{
     padding: 5px;
+	
     }
+th{
+	-webkit-text-stroke: 0.8px skyblue;
+	text-color: white;
+	font-size: 20px;
+	}
 table{
     border-spacing: 15px;
      }
@@ -20,7 +34,13 @@ table{
   <div><br>
     <h1 style='font-family:Book Antiqua;'><em> Student Management System</em></h1>
   </div><br>
-
+	<nav>
+  <ul>
+    <li class="dropdown last">
+    <a onclick="window.location='/signup' " class="dropbtn"> Signup </a>
+  </li>
+</ul>
+</nav><br><br>
     <form method="POST" class="pure-form pure-form-aligned" action="/login">
         <table cellspacing="10"  style=" border: 3px solid black" align="center">
           <tr>
@@ -33,8 +53,8 @@ table{
              {%- endfor %}
           <div class="pure-control-group"><tr><th >Username* :</th><td><input type="text" name="username" required/></td></tr>
            <div class="pure-control-group"><tr><th>Password* :</th><td><input type="password" name="password" required/></td></tr>
-             <td colspan="3" > <input type="submit" value="  Login  " style="background:#01090C ;color:white; border:none; border-radius:15px;padding:10px" /></td></tr>
-             <th colspan="3"> * represents Mandatory Fields</th>
+             <td colspan="3" > <input type="submit" value="  Login  " style="background:#F2ACB9 ;font-size: 20px;color:black; border:none; border-radius:15px;padding:10px" /></td></tr>
+             <th colspan="3"> * Represents Mandatory Fields</th>
         </table>
           </form>
 </body>

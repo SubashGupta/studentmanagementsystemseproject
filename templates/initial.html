@@ -4,8 +4,15 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='edits.css') }}">
 <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
 <style>
-body , h1{
-  background-color: skyblue;
+body{
+  background-repeat:no-repeat;
+  background-attached:fixed;
+  background-size:cover;
+  background-image: url('{{url_for('static',filename='img/img.jpg')}}');
+  text-align: center;
+  margin-left: 20px;
+}
+h1{
   text-align: center;
   margin-left: 20px;
 }
@@ -30,13 +37,13 @@ table{
     <a onclick="window.location='/signup' " class="dropbtn"> Signup </a>
   </li>
 </ul>
-</nav><br><br>
+</nav>
 	{%- for category, message in get_flashed_messages(with_categories = true) %}
         <div class = "alert alert-danger">
             {{ message }}
         </div>
     {%- endfor %}
 	<br>
-	<h1 style='font-family:Book Antiqua;'><em> Please click on Signup or Login to proceed....</em></h1>
+	<h2 style='font-family:Book Antiqua;'><em> Click Signup or Login to proceed....</em></h2>
 </body>
 </html>

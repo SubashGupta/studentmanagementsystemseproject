@@ -4,17 +4,19 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='edits.css') }}">
 <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
 <style>
-footer{
-  text-align:center;
-  padding:3px;
-  color: black;
-  }
-  body , h1{
-    background-color: skyblue;
-    text-align: center;
-    margin-left: 20px;
-  }
-	   .row:after {
+body{
+  background-repeat:no-repeat;
+  background-attached:fixed;
+  background-size:cover;
+  background-image: url('{{url_for('static',filename='img/img2.jpg')}}');
+  text-align: center;
+  margin-left: 20px;
+}
+h1{
+  text-align: center;
+  margin-left: 20px;
+}
+.row:after {
   content: "";
   display: table;
   clear: both;
@@ -65,7 +67,7 @@ footer{
             {{ message }}
          </div>
 {%- endfor %}<br>
-<br><br>
+<h3> Student Attendance </h3>
 <table style="border:1px solid black;margin-left:auto;margin-right:auto;" class="pure-table">
     <thead>
             <tr>

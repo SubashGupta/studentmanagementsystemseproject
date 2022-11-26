@@ -4,22 +4,24 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='edits.css') }}">
 <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
 <style>
-footer{
-  text-align:center;
-  padding:3px;
-  color: black;
-  }
-  body , h1{
-    background-color: skyblue;
-    text-align: center;
-    margin-left: 20px;
-  }
-  table,th,tr,td{
-      padding: 5px;
-      }
-  table{
-      border-spacing: 15px;
-       }
+body{
+  background-repeat:no-repeat;
+  background-attached:fixed;
+  background-size:cover;
+  background-image: url('{{url_for('static',filename='img/img2.jpg')}}');
+  text-align: center;
+  margin-left: 20px;
+}
+h1{
+  text-align: center;
+  margin-left: 20px;
+}
+table,th,tr,td{
+    padding: 5px;
+    }
+table{
+    border-spacing: 15px;
+     }
 </style>
 </head>
 <body>
@@ -55,10 +57,6 @@ footer{
             {{ message }}
          </div>
 {%- endfor %}<br>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
 <h2> Hello {% if fullnames %} {{ fullnames }} {% endif %}, Welcome to the Class Teacher Home Page <br><br> Go through the Navigation Bar for different Requirements</h2>
 <br><br>
 <br><br>

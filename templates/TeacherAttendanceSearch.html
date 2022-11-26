@@ -5,12 +5,18 @@
 <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-
-  body , h1{
-    background-color: skyblue;
-    text-align: center;
-    margin-left: 20px;
-  }
+body{
+  background-repeat:no-repeat;
+  background-attached:fixed;
+  background-size:cover;
+  background-image: url('{{url_for('static',filename='img/img2.jpg')}}');
+  text-align: center;
+  margin-left: 20px;
+}
+h1{
+  text-align: center;
+  margin-left: 20px;
+}
 @media screen and (max-width: 1000px) {
   .column {
     width: 100%;
@@ -76,15 +82,11 @@
             {{ message }}
          </div>
 {%- endfor %}<br>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
-<h2>Enter the Student "Admission Number" or "Roll Number" in the search bar to fetch and add Attendance</h2>
-<br><br>
+<h2>Enter the Student "Admission Number" in the search bar to fetch and add Attendance</h2>
+<br>
 <div class="search-container">
     <form method="POST" action="/AddStudentAttendance">
-      <input type="text" placeholder="Enter Admission Number or Roll Number" name="search">
+      <input type="text" placeholder="Enter Admission Number" name="search">
       <button type="submit"><i class="fa fa-search"></i></button>
     </form>
 </div>

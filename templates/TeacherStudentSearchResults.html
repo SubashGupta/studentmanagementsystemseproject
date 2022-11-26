@@ -4,17 +4,19 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='edits.css') }}">
 <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
 <style>
-footer{
-  text-align:center;
-  padding:3px;
-  color: black;
-  }
-  body , h1{
-    background-color: skyblue;
-    text-align: center;
-    margin-left: 20px;
-  }
-	   .row:after {
+body{
+  background-repeat:no-repeat;
+  background-attached:fixed;
+  background-size:cover;
+  background-image: url('{{url_for('static',filename='img/img2.jpg')}}');
+  text-align: center;
+  margin-left: 20px;
+}
+h1{
+  text-align: center;
+  margin-left: 20px;
+}
+.row:after {
   content: "";
   display: table;
   clear: both;
@@ -65,20 +67,19 @@ footer{
             {{ message }}
          </div>
 {%- endfor %}<br>
-<br><br>
 <h3>Student Details<h3>
 {% if data %}
 <div class="row">
-  <div class="column" style="background-color:#aa4;">
+  <div class="column"">
     <th>Admission No* :</th>
     <td><input type="number" name= "Admission No" value= "{{ data[0][0] }}" disabled ="" /></td>
   </div>
-  <div class="column" style="background-color:#bbb;">
-    <th >First Name* :</th>
+  <div class="column">
+    <th >   First Name*  :</th>
     <td><input type="text" name= "First Name" value= "{{ data[0][3] }}" disabled ="" /></td>
   </div>
   <div class="column">
-    <th >Last Name* :</th>
+    <th >   Last Name*  :</th>
     <td><input type="text" name= "Last Name" value= "{{ data[0][4] }}" disabled ="" /></td>
   </div>
   <div class="column">
@@ -132,7 +133,7 @@ footer{
     <td><input type="text" name= "Class Teacher" value= "{{ data[0][15] }}" disabled ="" /></td>
   </div>
   <div class="column">
-    <th >Class Teacher Ph* :</th>
+    <th >Class Teacher Phone* :</th>
     <td><input type="number" name= "Class Teacher Ph" value= "{{ data[0][16] }}" disabled ="" /></td>
   </div>
   <div class="column">

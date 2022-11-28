@@ -68,12 +68,12 @@ h1{
     <a onclick="window.location='/logout' " class="dropbtn"> Logout </a>
   </li>
 </ul>
-</nav><br><br>
+</nav><br>
 {%- for category, message in get_flashed_messages(with_categories = true) %}
          <div class = "alert alert-danger">
             {{ message }}
          </div>
-{%- endfor %}<br>
+{%- endfor %}
 <br>
 <h3><b>Student Details</b><h3>
 {% if data %}

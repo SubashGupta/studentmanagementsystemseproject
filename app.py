@@ -94,10 +94,10 @@ def signup():
                         con.commit()
                 return redirect(url_for("beforelogin"))
             else:
-                flash("Password and Confirm Password were not matched. Kindly Re-Enter the Signup form",'error')
+                flash("Password and Confirm Password were not matched. Kindly Re-Enter the Signup form.",'error')
                 return redirect(url_for('signup'))
         else:
-            flash("Due to Mismatch with the existing system data we are unable to find the student details. Kindly contact administrator ",'error')
+            flash("Due to Mismatch with the existing system data we are unable to find the student details. Kindly contact administrator.",'error')
             return redirect(url_for('signup'))
     else:
         return render_template("Signup.html")
@@ -142,7 +142,7 @@ def beforelogin():
                         add_to_dict(session, 'user_type', person_type)
                         
                     else:
-                        flash("Unable to find the student details kindly contact system administrator ",'error')
+                        flash("Unable to find the student details, kindly contact system administrator.",'error')
                         return redirect(url_for('beforelogin'))
                     return redirect(url_for('home'))
                 elif res[0][2] == "class teacher" :
@@ -162,7 +162,7 @@ def beforelogin():
                         add_to_dict(session, 'admissionNumber', admissionNo)
                         add_to_dict(session, 'user_type', person_type)
                     else:
-                        flash("Unable to find the teacher details kindly contact system administrator ",'error')
+                        flash("Unable to find the teacher details, kindly contact system administrator.",'error')
                         return redirect(url_for('beforelogin'))
                     return redirect(url_for('homeT'))
                 elif res[0][2] == "principal" :
@@ -180,11 +180,11 @@ def beforelogin():
                         add_to_dict(session, 'admissionNumber', admissionNo)
                         add_to_dict(session, 'user_type', person_type)
                     else:
-                        flash("Unable to find the Principal details kindly contact system administrator ",'error')
+                        flash("Unable to find the Principal details, kindly contact system administrator.",'error')
                         return redirect(url_for('beforelogin'))
                     return redirect(url_for('homeT'))
         else:                   #Else displaying the credentials are wrong
-            flash("Invalid Credentials Kindly check them ",'error')
+            flash("Invalid Credentials Kindly check them.",'error')
             return redirect(url_for('beforelogin'))
     else:
         return render_template('login.html')
@@ -229,7 +229,7 @@ def ChangePwd():
                     elif session['user_type'] == "class teacher" or session['user_type'] == "principal":
                         return redirect(url_for("homeT"))
                 else:
-                    msg = "You are not entering your password. Kindly enter your actual password to proceed further"
+                    msg = "You are not entering your password. Kindly enter your actual password to proceed further."
                     flash(msg,'error')   #flashing an error message
                     if session['user_type'] == "student":
                         return redirect(url_for("home"))
@@ -266,7 +266,7 @@ def StudentMyDetails():
             print(datavalues)
             ClassSection = str(datavalues[0][1])+"/"+datavalues[0][2]
             print(ClassSection)
-            flash("Data Fetch Successful",'error')
+            flash("Student Data Fetch is Successful.",'error')
             return render_template("StudentMyDetails.html", data = datavalues, ClassSection = ClassSection)
     return redirect(url_for("initial"))
     
@@ -280,10 +280,10 @@ def StudentMyAttendance():
             datavalues_attendance = cur.execute("SELECT Admission_id, August,September,October,November,December,January,February, March, April FROM studentAttendance WHERE Admission_Id = ?;",[admission_no]).fetchall()
             print(datavalues_attendance)
             if len(datavalues_attendance)>0:
-                flash("Data Fetch Successful",'error')
+                flash("Student Attendance Data Fetch is Successful.",'error')
                 return render_template("StudentMyAttendance.html", data = datavalues_attendance)
             else:
-                flash("Unable to fetch the attendance of the student","error")
+                flash("Unable to fetch the attendance of the student.","error")
                 return redirect(url_for("home"))
     return redirect(url_for("initial"))
 
@@ -309,12 +309,13 @@ def StudentSearchT():
                             search_attendance = cur.execute("SELECT Admission_id, August,September,October,November,December,January,February, March, April FROM studentAttendance WHERE Admission_Id = ?;",[searchinput]).fetchall()
                             print(search_attendance)
                             if len(search_attendance) >0:
+                                flash("Student Data Fetch is Successful.",'error')
                                 return render_template("TeacherStudentSearchResults.html",data = Teachsearchvalues, ClassSection = Class_section, data1 = search_attendance)
                             else:
                                 flash("Attendance was not added to the student by the class teacher. Only the student details are available. ","error")
                                 return render_template("TeacherStudentSearchResults.html",data = Teachsearchvalues, ClassSection = Class_section, data1 = search_attendance)
                         else:
-                            flash("Unable to find the student with the given input. Check if the student is assigned to your class or not","error")
+                            flash("Unable to find the student with the given input. Check if the student is assigned to your class or not.","error")
                             return redirect(url_for("StudentSearchT"))
                 else:
                     flash("Please enter the vaild AdmissionNumber which are in Numbers","error")
@@ -350,20 +351,21 @@ def AddStudentAttendanceT():
                             search_attendance = cur.execute("SELECT Admission_id, August,September,October,November,December,January,February, March, April FROM studentAttendance WHERE Admission_Id = ?;",[searchinput]).fetchall()
                             print(search_attendance)
                             if len(search_attendance) >0:
+                                flash("Student Data Fetch is Successful. Kindly enter the attendance now.",'error')
                                 return render_template("Teacher_StudentAttendanceshow.html",data = searchvalues, ClassSection = Class_section, data1 = search_attendance)
                                 #attendance not there you need to enter it now.
                             else:
                                 search_attendance = [('', '', '','' , '', '', '', '', '', '')]
-                                flash("Student does not have atleast one month attendance entered. Kindly enter the attendance now","error")
+                                flash("Student does not have atleast one month attendance entered. Kindly enter the attendance now.","error")
                                 return render_template("Teacher_StudentAttendanceshow.html",data = searchvalues, ClassSection = Class_section, data1 = search_attendance)
                         else:
-                            flash("Unable to find the student with the given input. Check if the student is assigned to your class or not","error")
+                            flash("Unable to find the student with the given input. Check if the student is assigned to your class or not.","error")
                             return redirect(url_for("StudentSearchT"))
                 else:
-                    flash("Please enter the vaild AdmissionNumber or RollNumber which are in Numbers","error")
+                    flash("Please enter the vaild AdmissionNumber or RollNumber which are in Numbers.","error")
                     return redirect(url_for("AddStudentAttendanceT"))
             else:
-                flash("Please provide an input to search the student details","error")
+                flash("Please provide an input to search the student details.","error")
                 return redirect(url_for("AddStudentAttendanceT"))
         else:
             return render_template("TeacherAttendanceSearch.html")
@@ -395,7 +397,7 @@ def SaveAttendance():
                     ins = "INSERT INTO studentAttendance (Admission_id,August,September,October,November,December,January,February,March,April) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
                     cur.execute(ins,[studentadmission_number,Aug,Sept,Oct,Nov,Dec,Jan,Feb,Mar,Apr])
                     con.commit()
-                flash("Student Attendance was saved Successfully. Kindly proceed with the next student","error")
+                flash("Student Attendance was saved Successfully. Kindly proceed with the next student.","error")
                 return redirect(url_for("AddStudentAttendanceT"))
         else:
             return redirect(url_for("AddStudentAttendanceT"))

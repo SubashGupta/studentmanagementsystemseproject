@@ -10,7 +10,14 @@ body{
   background-size:cover;
   background-image: url('{{url_for('static',filename='img/img2.jpg')}}');
   text-align: center;
-  margin-left: 20px;
+}
+footer {
+  text-align: center;
+  color: black;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: DarkSalmon;
 }
 h1{
   text-align: center;
@@ -25,7 +32,7 @@ table{
 </style>
 </head>
 <body>
-  <h1><a style="text_align:center" href = "{{ url_for('home') }}"> Student Management System</h1>
+  <h1><a style="text_align:center; font-family:Book Antiqua;" href = "{{ url_for('home') }}"> Student Management System</h1>
 <nav>
   <ul>
     <li class="dropdown">
@@ -61,4 +68,7 @@ table{
 <br><br>
 <br><br>
 <BR><br>
+<footer>
+  <p><b>@Copyright of Subash Gupta Karamsetty, Akhil Yarlagadda, Sandeep Mandapati, Raghu Rama Raju Nadimpalli, Harish Eedala.</b>
+</footer>
 </body>

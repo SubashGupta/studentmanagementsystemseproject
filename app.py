@@ -164,7 +164,25 @@ def beforelogin():
                     else:
                         flash("Unable to find the teacher details kindly contact system administrator ",'error')
                         return redirect(url_for('beforelogin'))
-                    return redirect(url_for('homeT'))   
+                    return redirect(url_for('homeT'))
+                elif res[0][2] == "principal" :
+                    login_principalsquery = cur.execute("SELECT First_Name,Last_Name,Email,ClassTeacherId,type FROM classteacherdetails WHERE Email= ? ;",[mailid]).fetchall()
+                    print(login_principalsquery)
+                    if len(login_principalsquery) > 0:
+                        #global fname,lname,mails,admissionNo,fullname, person_type, dealing_class, sections
+                        fname = login_principalsquery[0][0]
+                        lname = login_principalsquery[0][1]
+                        mails = login_principalsquery[0][2]
+                        admissionNo = login_principalsquery[0][3]
+                        person_type = login_principalsquery[0][4]
+                        fullname = fname.capitalize()+" "+lname.capitalize()
+                        session['user'] = fullname
+                        add_to_dict(session, 'admissionNumber', admissionNo)
+                        add_to_dict(session, 'user_type', person_type)
+                    else:
+                        flash("Unable to find the Principal details kindly contact system administrator ",'error')
+                        return redirect(url_for('beforelogin'))
+                    return redirect(url_for('homeT'))
         else:                   #Else displaying the credentials are wrong
             flash("Invalid Credentials Kindly check them ",'error')
             return redirect(url_for('beforelogin'))
@@ -208,14 +226,14 @@ def ChangePwd():
                         flash("Passwords didnot matched. Try again!","error")
                     if session['user_type'] == "student":
                         return redirect(url_for("home"))
-                    elif session['user_type'] == "class teacher":
+                    elif session['user_type'] == "class teacher" or session['user_type'] == "principal":
                         return redirect(url_for("homeT"))
                 else:
                     msg = "You are not entering your password. Kindly enter your actual password to proceed further"
                     flash(msg,'error')   #flashing an error message
                     if session['user_type'] == "student":
                         return redirect(url_for("home"))
-                    elif session['user_type'] == "class teacher":
+                    elif session['user_type'] == "class teacher" or session['user_type'] == "principal":
                         return redirect(url_for("homeT"))
         else:
             return render_template("changepassword.html")
@@ -281,22 +299,25 @@ def StudentSearchT():
                 if searchinput.isnumeric():
                     with sqlite3.connect("ProjectDB.sqlite3") as con:    #connecting to the hosp.sqlite3 database
                         cur = con.cursor()
-                        searchvalues = cur.execute("SELECT Admission_id, Class, Section, First_Name, Last_Name, Phone, Email, Father_Name, Mother_Name, Date_Of_Birth, Father_Phone, Mother_Phone, Father_Email, Mother_Email, Address, Class_Teacher, Class_Teacher_Phone, Class_Teacher_Email, Class_Teacher_id FROM studentdetails WHERE Admission_id= ? and Class_Teacher_id = ?;",[searchinput,Teacher_admission_id]).fetchall()
-                        print(searchvalues)
-                        if len(searchvalues)>0:
-                            Class_section = str(searchvalues[0][1])+"/"+searchvalues[0][2]
+                        if session['user_type'] == "principal":
+                            Teachsearchvalues = cur.execute("SELECT Admission_id, Class, Section, First_Name, Last_Name, Phone, Email, Father_Name, Mother_Name, Date_Of_Birth, Father_Phone, Mother_Phone, Father_Email, Mother_Email, Address, Class_Teacher, Class_Teacher_Phone, Class_Teacher_Email, Class_Teacher_id FROM studentdetails WHERE Admission_id= ?;",[searchinput]).fetchall()
+                        else:
+                            Teachsearchvalues = cur.execute("SELECT Admission_id, Class, Section, First_Name, Last_Name, Phone, Email, Father_Name, Mother_Name, Date_Of_Birth, Father_Phone, Mother_Phone, Father_Email, Mother_Email, Address, Class_Teacher, Class_Teacher_Phone, Class_Teacher_Email, Class_Teacher_id FROM studentdetails WHERE Admission_id= ? and Class_Teacher_id = ?;",[searchinput,Teacher_admission_id]).fetchall()
+                        print(Teachsearchvalues)
+                        if len(Teachsearchvalues)>0:
+                            Class_section = str(Teachsearchvalues[0][1])+"/"+Teachsearchvalues[0][2]
                             search_attendance = cur.execute("SELECT Admission_id, August,September,October,November,December,January,February, March, April FROM studentAttendance WHERE Admission_Id = ?;",[searchinput]).fetchall()
                             print(search_attendance)
                             if len(search_attendance) >0:
-                                return render_template("TeacherStudentSearchResults.html",data = searchvalues, ClassSection = Class_section, data1 = search_attendance)
+                                return render_template("TeacherStudentSearchResults.html",data = Teachsearchvalues, ClassSection = Class_section, data1 = search_attendance)
                             else:
                                 flash("Attendance was not added to the student by the class teacher. Only the student details are available. ","error")
-                                return render_template("TeacherStudentSearchResults.html",data = searchvalues, ClassSection = Class_section, data1 = search_attendance)
+                                return render_template("TeacherStudentSearchResults.html",data = Teachsearchvalues, ClassSection = Class_section, data1 = search_attendance)
                         else:
                             flash("Unable to find the student with the given input. Check if the student is assigned to your class or not","error")
                             return redirect(url_for("StudentSearchT"))
                 else:
-                    flash("Please enter the vaild AdmissionNumber or RollNumber which are in Numbers","error")
+                    flash("Please enter the vaild AdmissionNumber which are in Numbers","error")
                     return redirect(url_for("StudentSearchT"))
             else:
                 flash("Please provide an input to search the student details","error")
@@ -318,7 +339,10 @@ def AddStudentAttendanceT():
                 if searchinput.isnumeric():
                     with sqlite3.connect("ProjectDB.sqlite3") as con:    #connecting to the hosp.sqlite3 database
                         cur = con.cursor()
-                        searchvalues = cur.execute("SELECT Admission_id, Class, Section, First_Name, Last_Name FROM studentdetails WHERE Admission_id= ? and Class_Teacher_id = ?;",[searchinput,Teacher_admission_id]).fetchall()
+                        if session['user_type'] == "principal":
+                            searchvalues = cur.execute("SELECT Admission_id, Class, Section, First_Name, Last_Name FROM studentdetails WHERE Admission_id= ?;",[searchinput]).fetchall()
+                        else:
+                            searchvalues = cur.execute("SELECT Admission_id, Class, Section, First_Name, Last_Name FROM studentdetails WHERE Admission_id= ? and Class_Teacher_id = ?;",[searchinput,Teacher_admission_id]).fetchall()
                         print(searchvalues)
                         if len(searchvalues)>0:
                             Class_section = str(searchvalues[0][1])+"/"+searchvalues[0][2]
@@ -383,7 +407,7 @@ def logout():
     session.pop('admissionNumber',None)
     session.pop('studentAdmissionNo',None)
     flash("logout was initiated successfully",'error')   #flashing an error message
-    return redirect(url_for("initial")) #comment
+    return redirect(url_for("initial"))
 
 if __name__ == '__main__':
     with app.app_context():

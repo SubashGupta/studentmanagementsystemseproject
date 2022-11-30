@@ -79,25 +79,28 @@ def signup():
             print(res)
         if len(res) > 0:
             if password_signup == confirmpassword_signup:
-                #insert mail id and password into the login table
-                with sqlite3.connect("ProjectDB.sqlite3") as con:    #connecting to the hosp.sqlite3 database
-                    cur = con.cursor()
-                    check_in_logintable = cur.execute("SELECT mailid,password FROM Login WHERE Admission_Id= ?;",[admissionno_signup]).fetchall()
-                    if len(check_in_logintable) > 0:
-                        flash("An account already exist with this student details kindly login with the existing credentials else contact Administrator",'error')
-                        return redirect(url_for('signup'))
-                    else:
-                        from datetime import datetime
-                        p=datetime.now()
-                        type_signup = "student"
-                        res = cur.execute("INSERT INTO Login (Admission_id,mailid,password,type,timestamp) VALUES(?, ?, ?, ?, ?);",[admissionno_signup,mailid_signup,password_signup,type_signup,p])
-                        con.commit()
-                return redirect(url_for("beforelogin"))
+                if len(password_signup) <=8:
+                    flash("Password should be more than 8 characters. Kindly Re-Enter the Signup form.",'error')
+                    return redirect(url_for('signup'))
+                else:
+                    with sqlite3.connect("ProjectDB.sqlite3") as con:    #connecting to the hosp.sqlite3 database
+                        cur = con.cursor()
+                        check_in_logintable = cur.execute("SELECT mailid,password FROM Login WHERE Admission_Id= ?;",[admissionno_signup]).fetchall()
+                        if len(check_in_logintable) > 0:
+                            flash("An account already exist with this student details kindly login with the existing credentials else contact Administrator",'error')
+                            return redirect(url_for('signup'))
+                        else:
+                            from datetime import datetime
+                            p=datetime.now()
+                            type_signup = "student"
+                            res = cur.execute("INSERT INTO Login (Admission_id,mailid,password,type,timestamp) VALUES(?, ?, ?, ?, ?);",[admissionno_signup,mailid_signup,password_signup,type_signup,p])
+                            con.commit()
+                            return redirect(url_for("beforelogin"))
             else:
                 flash("Password and Confirm Password were not matched. Kindly Re-Enter the Signup form.",'error')
                 return redirect(url_for('signup'))
         else:
-            flash("Due to Mismatch with the existing system data we are unable to find the student details. Kindly contact administrator.",'error')
+            flash("Due to Mismatch with the existing system data we are unable to find the student details and create an account. Kindly contact administrator.",'error')
             return redirect(url_for('signup'))
     else:
         return render_template("Signup.html")

@@ -95,6 +95,7 @@ def signup():
                             type_signup = "student"
                             res = cur.execute("INSERT INTO Login (Admission_id,mailid,password,type,timestamp) VALUES(?, ?, ?, ?, ?);",[admissionno_signup,mailid_signup,password_signup,type_signup,p])
                             con.commit()
+                            flash("Account was created successfully. Kindly login with your credentials.",'error')
                             return redirect(url_for("beforelogin"))
             else:
                 flash("Password and Confirm Password were not matched. Kindly Re-Enter the Signup form.",'error')
@@ -219,11 +220,18 @@ def ChangePwd():
                     ADMISSION_OF_USER = session['admissionNumber']
                     print(ADMISSION_OF_USER)
                     if newpwd == newpwd_confirm:
-                        upd="UPDATE Login SET password =? WHERE Admission_id = ?; "
-                        cur.execute(upd,[newpwd,ADMISSION_OF_USER])
-                        con.commit()
-                        print("Updated")
-                        flash("Updating the password is completed.",'error')   #flashing an error message
+                        if len(newpwd) <=8:
+                            flash("Password should be more than 8 characters. Unable to proceed with the password change.",'error')
+                            if session['user_type'] == "student":
+                                return redirect(url_for("home"))
+                            elif session['user_type'] == "class teacher" or session['user_type'] == "principal":
+                                return redirect(url_for("homeT"))
+                        else:
+                            upd="UPDATE Login SET password =? WHERE Admission_id = ?; "
+                            cur.execute(upd,[newpwd,ADMISSION_OF_USER])
+                            con.commit()
+                            print("Updated")
+                            flash("Updating the password is completed.",'error')   #flashing an error message
                     else:
                         print("Not updated")
                         flash("Passwords didnot matched. Try again!","error")
@@ -286,7 +294,7 @@ def StudentMyAttendance():
                 flash("Student Attendance Data Fetch is Successful.",'error')
                 return render_template("StudentMyAttendance.html", data = datavalues_attendance)
             else:
-                flash("Unable to fetch the attendance of the student.","error")
+                flash("Attendance was not assigned for the student. Wait for the class teacher to add the attendance.","error")
                 return redirect(url_for("home"))
     return redirect(url_for("initial"))
 
